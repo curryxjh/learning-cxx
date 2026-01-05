@@ -1,5 +1,5 @@
 #include "../exercise.h"
-
+#include <cstring>
 // READ: 复制构造函数 <https://zh.cppreference.com/w/cpp/language/copy_constructor>
 // READ: 函数定义（显式弃置）<https://zh.cppreference.com/w/cpp/language/function>
 
@@ -12,16 +12,21 @@ class DynFibonacci {
 public:
     // TODO: 实现动态设置容量的构造器
     DynFibonacci(int capacity): cache(new size_t[capacity]), cached(0), capacity(capacity) {
-    	cache[0] = 0;
-	cache[1] = 1;
+        if (capacity > 0) cache[0] = 0;
+        if (capacity > 1) {
+            cache[1] = 1;
+            cached = 1;
+        } else {
+            cached = 0;
+        }
     }
 
     // TODO: 实现复制构造器
     DynFibonacci(DynFibonacci const & other) {
-	capacity = other.capacity;
+        capacity = other.capacity;
         cache = new size_t[other.capacity];
-	for (int i = 0; i < other.capacity; ++ i)
-		cache[i] = other.cache[i];
+        for (int i = 0; i < other.capacity; ++ i)
+            cache[i] = other.cache[i];
     };
 
     // TODO: 实现析构器，释放缓存空间
@@ -31,7 +36,8 @@ public:
 
     // TODO: 实现正确的缓存优化斐波那契计算
     size_t get(int i) {
-        for (cached = 2; cached <= i; ++cached) {
+        while (cached < i) {
+            cached++;
             cache[cached] = cache[cached - 1] + cache[cached - 2];
         }
         return cache[i];
