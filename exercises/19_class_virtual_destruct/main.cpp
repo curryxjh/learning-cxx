@@ -43,8 +43,8 @@ int main(int argc, char **argv) {
     auto b = new B;
     ASSERT(A::num_a == 2, "Fill in the correct value for A::num_a");
     ASSERT(B::num_b == 1, "Fill in the correct value for B::num_b");
-    ASSERT(a->name() == '?', "Fill in the correct value for a->name()");
-    ASSERT(b->name() == '?', "Fill in the correct value for b->name()");
+    ASSERT(a->name() == 'A', "Fill in the correct value for a->name()");
+    ASSERT(b->name() == 'B', "Fill in the correct value for b->name()");
 
     delete a;
     delete b;
@@ -54,10 +54,10 @@ int main(int argc, char **argv) {
     A *ab = new B;// 派生类指针可以随意转换为基类指针
     ASSERT(A::num_a == 1, "Fill in the correct value for A::num_a");
     ASSERT(B::num_b == 1, "Fill in the correct value for B::num_b");
-    ASSERT(ab->name() == '?', "Fill in the correct value for ab->name()");
+    ASSERT(ab->name() == 'B', "Fill in the correct value for ab->name()");
 
     // TODO: 基类指针无法随意转换为派生类指针，补全正确的转换语句
-    B &bb = *ab;
+    B &bb = dynamic_cast<B &>(*ab);
     ASSERT(bb.name() == 'B', "Fill in the correct value for bb->name()");
 
     // TODO: ---- 以下代码不要修改，通过改正类定义解决编译问题 ----
